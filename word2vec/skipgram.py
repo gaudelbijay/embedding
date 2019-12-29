@@ -82,6 +82,6 @@ class word2vec:
         if batch_size>len(training_data):
             batch_size = len(training_data)
         
-        return self.model.fit(training_data[1],training_data[0],epochs=epochs,
+        return self.model.fit(training_data[1],training_data[0],batch_size=batch_size,epochs=epochs,
                                 initial_epochs=initial_epochs,verbose=verbose,shuffle=False)
                 
