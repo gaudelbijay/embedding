@@ -72,7 +72,7 @@ class word2vec:
         return word_vec
 
     def reset_model(self):
-        self.model,self.embe_model = create_model(self.vec_len,self.embedding_size)
+        self.model,self.emb_model = create_model(self.vec_len,self.embedding_size)
         opt = optimizer(learning_rate)
         self.model.compile(opt,loss)
         self.get_embeddings()
@@ -82,6 +82,8 @@ class word2vec:
         if batch_size>len(training_data):
             batch_size = len(training_data)
         
-        return self.model.fit(training_data[1],training_data[0],batch_size=batch_size,epochs=epochs,
-                                initial_epochs=initial_epochs,verbose=verbose,shuffle=False)
-                
+        print(self.model.fit(training_data[1],training_data[0],batch_size=batch_size,epochs=epochs,
+                                initial_epochs=initial_epochs,verbose=verbose,shuffle=False))
+    
+    def get_embeddings(self):
+        pass 
