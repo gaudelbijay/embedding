@@ -7,7 +7,7 @@ def loss(y_true,y_pred):
     return tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(labels=y_true,logits=y_pred))
 
 def optimizer(learning_rate):
-    return tf.train.GradientDescent(learning_rate) 
+    return tf.train.GradientDescent(learning_rate)  
 
 def create_model(vector_size,embedding_size):
     # Input Vectors 
