@@ -36,11 +36,13 @@ def create_model(vector_size,embedding_size):
     return model,emb 
 
 
+
 class word2vec:
-    def __init__(self,corpus,window_size,EMBEDDING_SIZE):
+    def __init__(self,corpus,window_size,embedding_size=5,learning_rate=0.01):
         self.corpus = corpus
         self.window_size = window_size
-        self.EMBEDDING_SIZE = EMBEDDING_SIZE
+        self.embedding_size = embedding_size
+        self.learning_rate = learning_rate
         word_ = set()
         for sentence in self.corpus:
             for word in sentence:
@@ -68,3 +70,11 @@ class word2vec:
         word_idx = self.word_idx[word]
         word_vec[word_idx]=1
         return word_vec
+
+    def reset_model(self):
+        self.model,self.embe_model = create_model(self.vec_len,self.embedding_size)
+        opt = optimizer(learning_rate)
+        self.model.compile(opt,loss)
+        self.get_embeddings()
+
+    
