@@ -77,4 +77,11 @@ class word2vec:
         self.model.compile(opt,loss)
         self.get_embeddings()
 
-    
+    def train(self,batch_size=5,epochs=10,initial_epochs=0,verbose=1):
+        training_data = self.generate_training_data()
+        if batch_size>len(training_data):
+            batch_size = len(training_data)
+        
+        return self.model.fit(training_data[1],training_data[0],epochs=epochs,
+                                initial_epochs=initial_epochs,verbose=verbose,shuffle=False)
+                
