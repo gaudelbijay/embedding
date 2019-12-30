@@ -1,10 +1,10 @@
 import numpy as np 
-import tensorflow as tf 
+import tensorflow as tf
 from collections import defaultdict
 from tensorflow.keras.models import Model 
 
 def loss(y_true,y_pred):
-    return tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(labels=y_true,logits=y_pred))
+    return tf.reduce_mean(-tf.reduce_sum(y_true*tf.log(y_pred),axis=[1]))
 
 def optimizer(learning_rate):
     return tf.train.GradientDescent(learning_rate)  
@@ -30,9 +30,10 @@ def create_model(vector_size,embedding_size):
     hidden_1 = tf.add(tf.matmul(X,weights['w1']),biases['b1'])
     out_layer = tf.add(tf.matmul(hidden_1,weights['w2']),biases['b2'])
     softmax_out = tf.nn.softmax(out_layer)
+    # y_predict = tf.argmax(softmax_out, axis=1)
 
-    model = Model(inputs=[X,Y],outputs=[out_layer])
-    emb = Model(inputs=[X],outputs=[softmax_out])
+    model = Model(inputs=[X,Y],outputs=[softmax_out])
+    emb = Model(inputs=[X],outputs=[hidden_1])
     return model,emb 
 
 
@@ -77,13 +78,13 @@ class word2vec:
         self.model.compile(opt,loss)
         self.get_embeddings()
 
-    def train(self,batch_size=5,epochs=10,initial_epochs=0,verbose=1):
+    def train_model(self,batch_size=5,epochs=10,initial_epochs=0,verbose=1):
         training_data = self.generate_training_data()
         if batch_size>len(training_data):
             batch_size = len(training_data)
         
-        print(self.model.fit(training_data[1],training_data[0],batch_size=batch_size,epochs=epochs,
-                                initial_epochs=initial_epochs,verbose=verbose,shuffle=False))
+        self.model.fit(training_data[1],training_data[0],batch_size=batch_size,epochs=epochs,
+                                initial_epochs=initial_epochs,verbose=verbose,shuffle=False)
     
     def get_embeddings(self):
         pass 

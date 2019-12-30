@@ -1,9 +1,10 @@
-def word2indx(corpus):
-    pass
-    
-def onehotencoder():
+import numpy as np 
+from collections import defaultdict
+
+def onehotenocder(word):
     pass 
 
-def training_data():
-    pass  
+def softmax():
+    pass 
+
 
