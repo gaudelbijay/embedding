@@ -52,6 +52,9 @@ class word2vec:
         self.vec_len = len(self.word_list)
         self.word_idx = dict((word,i) for i,word in enumerate(self.word_list))
         self.idx_word = dict((i,word) for i,word in enumerate(self.word_list))
+
+        self.training_data = self.generate_training_data()
+        self._embeddings = {}
     
     def generate_training_data(self):
         training_data = []
@@ -79,12 +82,16 @@ class word2vec:
         self.get_embeddings()
 
     def train_model(self,batch_size=5,epochs=10,initial_epochs=0,verbose=1):
-        training_data = self.generate_training_data()
-        if batch_size>len(training_data):
-            batch_size = len(training_data)
+        if batch_size>len(self.training_data):
+            batch_size = len(self.training_data)
         
-        self.model.fit(training_data[1],training_data[0],batch_size=batch_size,epochs=epochs,
+        self.model.fit(self.training_data[1],self.training_data[0],batch_size=batch_size,epochs=epochs,
                                 initial_epochs=initial_epochs,verbose=verbose,shuffle=False)
     
     def get_embeddings(self):
-        pass 
+        self._embeddings = {}
+        embeddings = self.emb_model.predict(self.training_data[1],batch_size=len(self.training_data))
+        lookback = self.idx_word
+        for i,embedding in enumerate(embeddings):
+            self._embeddings[lookback[i]] = embedding
+        return self._embeddings
