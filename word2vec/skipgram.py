@@ -11,8 +11,8 @@ def optimizer(learning_rate):
 
 def create_model(vector_size,embedding_size):
     # Input Vectors 
-    X = tf.placeholder(tf.float32,shape=[None,self.vec_len])
-    Y = tf.placeholder(tf.float32,shape=[None,self.vec_len])
+    X = Input(type=tf.float32,shape=(None,self.vec_len))
+    Y = Input(type=tf.float32,shape=(None,self.vec_len))
 
     #Dictionary of Weights
     weights = {
